@@ -1,0 +1,14 @@
+name: docxtpl
+
+environment:
+  sdk: ">=2.19.4 <3.0.0"
+
+dependencies:
+  path: ^1.8.0
+  http: ^0.13.5
+  archive: ^3.3.5
+  xml: ^6.1.0
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.21.0
