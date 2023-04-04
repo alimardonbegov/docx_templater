@@ -25,16 +25,15 @@ void main(List<String> args) async {
   }
 
   final Map<String, String> testMap = {
-    "DOC_NUMBER": "111111",
-    "IME_PREZIME": "AAAAAAA",
+    "DOC_NUMBER": "22222",
+    "IME_PREZIME": "BBBBB",
   };
 
   final List<int> bytes = await getDocBytesFromLocal("lib/tpl.docx");
-
   final tpl = Templater(bytes: bytes, map: testMap);
 
-  //! save bytes and create new file
   final List<int> generatedBytes = tpl.generateTpl()!;
+
   final file = File("lib/generated_tpl.docx");
   file.writeAsBytesSync(generatedBytes);
 }

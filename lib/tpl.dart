@@ -1,6 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:archive/archive_io.dart';
-import 'package:xml/xml.dart';
+import 'package:path/path.dart' as path;
 
 class Templater {
   final List<int> bytes;
@@ -10,6 +11,7 @@ class Templater {
   late Archive _zip;
   late String _docXml;
   late int _documentXmlIndex;
+  late Directory _dir;
 
   Templater({
     required this.bytes,
@@ -36,20 +38,14 @@ class Templater {
   }
 
   void _getArchiveAndXmlString() {
-    _zip = ZipDecoder().decodeBytes(bytes);
-
-    // ! check encoding the bytes (not working)
-    // final newBytes1 = ZipEncoder().encode(_zip);
-    // print('original bytes');
-    // print(bytes);
-    // print('rewrite bytes');
-    // print(newBytes1);
+    _zip = ZipDecoder().decodeBytes(bytes, verify: true);
 
     _documentXmlIndex = _zip.files.indexWhere((file) => file.name == 'word/document.xml');
+
     final ArchiveFile documentXml = _zip.files[_documentXmlIndex];
     final List<int> content = documentXml.content as List<int>;
 
-    _docXml = String.fromCharCodes(content);
+    _docXml = utf8.decode(content);
   }
 
   void _writeMergeFields() {
