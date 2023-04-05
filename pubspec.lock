@@ -202,21 +202,13 @@ packages:
     source: hosted
     version: "2.1.0"
   path:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path
       sha256: "8829d8a55c13fc0e37127c29fedf290c102f4e40ae94ada574091fe0ff96c917"
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
-  petitparser:
-    dependency: transitive
-    description:
-      name: petitparser
-      sha256: a9346a3fbba7546a28374bdbcd7f54ea48bb47772bf3a7ab4bfaadc40bc8b8c6
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.3.0"
   pointycastle:
     dependency: transitive
     description:
@@ -333,26 +325,26 @@ packages:
     dependency: "direct dev"
     description:
       name: test
-      sha256: ce63f9d79c7b5ae87b8756b92deb0b78bdfb3a6421226b7cd03bf9e414d560ed
+      sha256: "3dac9aecf2c3991d09b9cdde4f98ded7b30804a88a0d7e4e7e1678e78d6b97f4"
       url: "https://pub.dev"
     source: hosted
-    version: "1.24.0"
+    version: "1.24.1"
   test_api:
     dependency: transitive
     description:
       name: test_api
-      sha256: "6b12a91cd2febdb6f7e7d92c00d1d0c01d88bffc7fe36b1ed236f0cc37cb5ca4"
+      sha256: eb6ac1540b26de412b3403a163d919ba86f6a973fe6cc50ae3541b80092fdcfb
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "0.5.1"
   test_core:
     dependency: transitive
     description:
       name: test_core
-      sha256: "4f44e9d888186f91f93ca581d6962424e796b9317acc3a1a997ab86753bf4717"
+      sha256: "5138dbffb77b2289ecb12b81c11ba46036590b72a64a7a90d6ffb880f1a29e93"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "0.5.1"
   typed_data:
     dependency: transitive
     description:
@@ -393,14 +385,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  xml:
-    dependency: "direct main"
-    description:
-      name: xml
-      sha256: "979ee37d622dec6365e2efa4d906c37470995871fe9ae080d967e192d88286b5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.2.2"
   yaml:
     dependency: transitive
     description:

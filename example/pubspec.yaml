@@ -1,5 +1,5 @@
-name: tpl_docx
-description: A starting point for Dart libraries or applications.
+name: tpl
+description: A sample command-line application.
 version: 1.0.0
 # repository: https://github.com/my_org/my_repo
 
@@ -12,6 +12,10 @@ environment:
 dev_dependencies:
   lints: ^2.0.0
   test: ^1.21.0
+
 dependencies:
   archive: ^3.3.6
   http: ^0.13.5
+  xml: ^6.1.0
+  tpl_docx:
+    path: ../

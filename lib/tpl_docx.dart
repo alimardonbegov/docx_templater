@@ -1,27 +1,34 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:archive/archive_io.dart';
-import 'package:path/path.dart' as path;
 
 class Templater {
   final List<int> bytes;
-  final Map<String, String> map;
 
   List<String> _mergedFields = [];
   late Archive _zip;
   late String _docXml;
   late int _documentXmlIndex;
-  late Directory _dir;
 
-  Templater({
-    required this.bytes,
-    required this.map,
-  });
+  Templater(this.bytes) {
+    _getArchiveAndXmlString();
+    _getMergedFields();
+  }
 
-  void _templateParse(String text) {
+  void _getArchiveAndXmlString() {
+    _zip = ZipDecoder().decodeBytes(bytes, verify: true);
+
+    _documentXmlIndex = _zip.files.indexWhere((file) => file.name == 'word/document.xml');
+
+    final ArchiveFile documentXml = _zip.files[_documentXmlIndex];
+    final List<int> content = documentXml.content as List<int>;
+
+    _docXml = utf8.decode(content);
+  }
+
+  void _getMergedFields() {
     final List<String> fields = [];
     final RegExp re = RegExp('{{\\w*}}', caseSensitive: true, multiLine: true);
-    final Iterable<Match> matches = re.allMatches(text);
+    final Iterable<Match> matches = re.allMatches(_docXml);
 
     if (matches.isEmpty) {
       fields;
@@ -37,20 +44,14 @@ class Templater {
     _mergedFields = fields.toSet().toList();
   }
 
-  void _getArchiveAndXmlString() {
-    _zip = ZipDecoder().decodeBytes(bytes, verify: true);
+  /// get merged fields from template
+  List<String> get mergedFields => _mergedFields;
 
-    _documentXmlIndex = _zip.files.indexWhere((file) => file.name == 'word/document.xml');
-
-    final ArchiveFile documentXml = _zip.files[_documentXmlIndex];
-    final List<int> content = documentXml.content as List<int>;
-
-    _docXml = utf8.decode(content);
-  }
-
-  void _writeMergeFields() {
+  /// create your own data Map <String, String> as "MERGE_FIELD_ONE" : "write this instead"
+  /// write your data in template
+  void writeMergedFields(Map<String, String> data) {
     for (var field in _mergedFields) {
-      if (map.containsKey(field) &&
+      if (data.containsKey(field) &&
           _docXml.contains(
             RegExp(
               '{{\\w*}}',
@@ -58,18 +59,15 @@ class Templater {
               multiLine: true,
             ),
           )) {
-        _docXml = _docXml.replaceAll(RegExp('{{$field}}'), map[field]!);
+        _docXml = _docXml.replaceAll(RegExp('{{$field}}'), data[field]!);
       }
     }
   }
 
-  List<String> get mergeFields => _mergedFields; //get template fields
-
-  List<int>? generateTpl() {
-    _getArchiveAndXmlString();
-    _templateParse(_docXml);
-
-    _writeMergeFields();
+  /// get generated docx bytes
+  List<int>? getGeneratedBytes() {
+    // _getArchiveAndXmlString();
+    // _templateParse(_docXml);
 
     final Archive newZip = Archive();
     for (var file in _zip.files) {
